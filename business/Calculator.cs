@@ -41,35 +41,16 @@ namespace business
                 }
                 else if ("+-*/".Contains(element))
                 {
-                    if (operation == '+')
-                    {
-                        result.Add(GetNum(number));
-                    }
-                    else if (operation == '-')
-                    {
-                        result.Add(-GetNum(number));
-                    }
-                    else if (operation == '*')
-                    {
-                        result[result.Count - 1] *= GetNum(number);
-                    }
-                    else if (operation == '/')
-                    {
-                        result[result.Count - 1] /= GetNum(number);
-                    }
-
+                    UpdateResult(result, number, operation);
                     operation = element;
                     number = new List<char>();
                 }
             }
-            result.Add(GetNum(number));
+            
+            //Update result for last number
+            UpdateResult(result, number, operation);
             
             return result.Sum();
-
-            static int GetNum(List<char> number)
-            {
-                return int.Parse(number.ToArray());
-            }
 
             static bool CheckIfInteger(char element)
             {
@@ -77,5 +58,37 @@ namespace business
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result">Result List</param>
+        /// <param name="number">char array of current number</param>
+        /// <param name="operation">+-*/</param>
+        private static void UpdateResult(List<int> result, List<char> number, char operation)
+        {
+            if (operation == '+')
+            {
+                result.Add(GetNum(number));
+            }
+            else if (operation == '-')
+            {
+                result.Add(-GetNum(number));
+            }
+            else if (operation == '*')
+            {
+                result[result.Count - 1] *= GetNum(number);
+            }
+            else if (operation == '/')
+            {
+                result[result.Count - 1] /= GetNum(number);
+            }
+        }
+
+        /// <summary>
+        /// Converts character array to int
+        /// </summary>
+        /// <param name="number">char array</param>
+        /// <returns>int</returns>
+        private static int GetNum(List<char> number) => int.Parse(number.ToArray());
     }
 }
