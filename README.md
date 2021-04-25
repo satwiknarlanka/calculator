@@ -10,3 +10,25 @@ The string will contain the operators: +, -, /, * , (, and ).
 If you have a string like this: #/#*# or #+#(#)/#, then evaluate from left to right.  
 So divide then multiply, and for the second one multiply, divide, then add.  
 The evaluations will be such that there will not be any decimal operations, so you do not need to account for rounding and whatnot.  
+
+## Design
+
+Refer to the [README](./business/README.md) in business layer for a detailed design document.  
+
+## Build
+
+``` bash
+dotnet build
+```
+
+## Run
+
+``` bash
+dotnet run --project console/console.csproj 
+```
+
+## Run tests
+
+``` bash
+dotnet test
+```
