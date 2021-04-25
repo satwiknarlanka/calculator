@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace business
@@ -14,37 +15,67 @@ namespace business
         /// <returns>evaulated result</returns>
         public int Calculate(string expression)
         {
-            var result = EvaluatePlusMinus(expression.ToCharArray());
+            var result = EvaluateArithematic(expression);
             return result;
         }
 
-        private int EvaluatePlusMinus(char[] subExpression)
+
+        /// <summary>
+        /// Traverses from left to right.
+        /// Stores numbers in a list.
+        /// When it encounter an operation it stores that in a variable
+        /// When it encounters another operation it computes the new value
+        /// </summary>
+        /// <param name="subExpression">expression with numbers and + - * / operators</param>
+        /// <returns>evaulated expression</returns>
+        private int EvaluateArithematic(string subExpression)
         {
-            var computedValue = 0;
+            var result = new List<int>();
             var number = new List<char>();
-            var operation = 1;
+            char operation = '+';
             foreach(var element in subExpression)
             {
-                if(element == '+')
-                {
-                    computedValue += int.Parse(number.ToArray()) * operation;;
-                    operation = 1;
-                    number = new List<char>();
-                }
-                else if(element == '-')
-                {
-                    computedValue += int.Parse(number.ToArray()) * operation;
-                    operation = -1;
-                    number = new List<char>();
-                }
-                else
+                if (CheckIfInteger(element))
                 {
                     number.Add(element);
                 }
+                else if ("+-*/".Contains(element))
+                {
+                    if (operation == '+')
+                    {
+                        result.Add(GetNum(number));
+                    }
+                    else if (operation == '-')
+                    {
+                        result.Add(-GetNum(number));
+                    }
+                    else if (operation == '*')
+                    {
+                        result[result.Count - 1] *= GetNum(number);
+                    }
+                    else if (operation == '/')
+                    {
+                        result[result.Count - 1] /= GetNum(number);
+                    }
+
+                    operation = element;
+                    number = new List<char>();
+                }
             }
+            result.Add(GetNum(number));
             
-            computedValue += int.Parse(number.ToArray()) * operation;
-            return computedValue;
+            return result.Sum();
+
+            static int GetNum(List<char> number)
+            {
+                return int.Parse(number.ToArray());
+            }
+
+            static bool CheckIfInteger(char element)
+            {
+                return int.TryParse(new char[] { element }, out var temp);
+            }
         }
+
     }
 }
