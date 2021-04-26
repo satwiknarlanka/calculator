@@ -35,5 +35,19 @@ namespace tests
             // Assert
             result.Should().Be(expected);
         }
+
+        [Theory]
+        [InlineData("(2-0)(6/2)", 6)]
+        [InlineData("2+(3-1)3", 8)]
+        [InlineData("20+((3-1)(5-2))3", 38)]
+        public void Calculator_GivenExpressionWithBrackets_ReturnsEvaluatedExpression_Success(string expression, int expected)
+        {
+            // Act
+            var sut = new Calculator();
+            var result = sut.Calculate(expression);
+
+            // Assert
+            result.Should().Be(expected);
+        }
     }
 }

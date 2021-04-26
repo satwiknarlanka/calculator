@@ -1,6 +1,6 @@
 # calculator
 
-## Problem description
+## Problem statement
 
 Have the function Calculator(str) take the str parameter being passed and evaluate the mathematical expression within in.  
 For example, if str were "2+(3-1)*3" the output should be 8.  
